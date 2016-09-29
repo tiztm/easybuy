@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -25,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class YourServlet
  */
 @WebServlet(name="InitServlet",urlPatterns = "/InitServlet",loadOnStartup=1)
 public class InitServlet extends HttpServlet {
@@ -42,11 +42,17 @@ public class InitServlet extends HttpServlet {
 
 
     public void init(ServletConfig config) throws ServletException {
-        //System.out.println("调用初始化方法1");
+        System.out.println("调用初始化方法1");
 
         //数据库初始化
+        String realPath = config.getServletContext().getRealPath("/")+"WEB-INF\\classes";
+        System.out.println(realPath);
 
-        for(Class clazz : ClassUtils.scanPackage(Constants.getInstance().packageName)){
+
+        ClassUtils.WEB_CLZ_PATH = realPath;
+
+        List<Class> entityClz = ClassUtils.scanPackage(Constants.getInstance().packageName);
+        for(Class clazz : entityClz){
 
             String tableName = clazz.toString();
             String colsNames = "";
@@ -105,8 +111,6 @@ public class InitServlet extends HttpServlet {
 
 
             geneTable(tableName, colsNames.substring(0,colsNames.length()-2));
-
-            return;
 
 
         }

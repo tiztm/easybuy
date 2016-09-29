@@ -3,7 +3,7 @@ package com.ztm.entity;
 import java.util.Date;
 
 /**
- * Created by Flower on 2016/7/5.
+ * Created by NilsZhang
  */
 public class EasybuyOrder {
     private int eo_id;

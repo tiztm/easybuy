@@ -1,7 +1,7 @@
 package com.ztm.entity;
 
 /**
- * Created by Flower on 2016/7/5.
+ * Created by NilsZhang
  */
 public class EasybuyProductCategory {
     private int epc_id;

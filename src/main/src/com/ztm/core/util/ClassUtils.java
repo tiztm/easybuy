@@ -15,6 +15,9 @@ public class ClassUtils {
     private static final String ZIP_SLASH = "/";
     private static final String BLACK = "";
     private static final ClassFilter NULL_CLASS_FILTER = null;
+    public static String WEB_CLZ_PATH = "";
+
+
     /**(1) 文件过滤器，过滤掉不需要的文件**/
     private static FileFilter fileFilter = new FileFilter() {
 
@@ -164,7 +167,15 @@ public class ClassUtils {
     }
     private static String[] getClassPathArray() {
         //不包括 jre
-        return System.getProperty("java.class.path").split(System.getProperty("path.separator"));
+
+        //target\classes
+
+        String property = System.getProperty("java.class.path");
+        property = property+System.getProperty("path.separator")+WEB_CLZ_PATH;
+        String[] split = property.split(System.getProperty("path.separator"));
+
+
+        return split;
         /* 包括 jre
         return System.getProperty("java.class.path").
                concat(System.getProperty("path.separator")).
