@@ -1,4 +1,4 @@
-package controller;
+package com.ztm.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
