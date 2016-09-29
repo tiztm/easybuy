@@ -5,18 +5,12 @@ package com.ztm.core.controller;
  * User:    tiztm
  * Date:    2016/9/29.
  */
+
 import com.ztm.core.dao.BaseDao;
 import com.ztm.core.util.ClassUtils;
 import com.ztm.core.util.StringUtil;
-import com.ztm.core.util.db.DBUtilsHelper;
+import com.ztm.core.util.anno.PrimaryKey;
 import com.ztm.util.Constants;
-import org.apache.commons.dbutils.QueryRunner;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Field;
-import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,6 +18,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Field;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  */
@@ -42,14 +41,14 @@ public class InitServlet extends HttpServlet {
 
 
     public void init(ServletConfig config) throws ServletException {
-        System.out.println("调用初始化方法1");
 
-        //数据库初始化
-        String realPath = config.getServletContext().getRealPath("/")+"WEB-INF\\classes";
-        System.out.println(realPath);
-
-
-        ClassUtils.WEB_CLZ_PATH = realPath;
+        try {
+            //数据库初始化
+            String realPath = config.getServletContext().getRealPath("/")+"WEB-INF\\classes";
+            ClassUtils.WEB_CLZ_PATH = realPath;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         List<Class> entityClz = ClassUtils.scanPackage(Constants.getInstance().packageName);
         for(Class clazz : entityClz){
@@ -60,7 +59,6 @@ public class InitServlet extends HttpServlet {
             tableName = StringUtil.camelToUnderline(tableName.substring(tableName.lastIndexOf(".")+1,tableName.length()));
 
 
-            //System.out.println(tableName));
 
             Field[] fields = clazz.getDeclaredFields();
             for (int i = 0; i < fields.length; i++) {//
@@ -83,9 +81,9 @@ public class InitServlet extends HttpServlet {
                     return;
                 }
 
+                PrimaryKey annotation = fields[i].getAnnotation(PrimaryKey.class);
 
-
-                if(fields[i].getName().endsWith("_id"))
+                if(annotation!=null)
                 {
                     //主键
                     colsNames = colsNames + " " + fields[i].getName() +
@@ -135,9 +133,9 @@ public class InitServlet extends HttpServlet {
     private void geneTable(String tablename, String colsNames) {
 
 
-        System.out.println(tablename);
-
-        System.out.println(colsNames);
+//        logger.info(tablename);
+//
+//        logger.info(colsNames);
 
 
         int count = BaseDao.getCount("SELECT count( * ) \n" +
@@ -147,21 +145,26 @@ public class InitServlet extends HttpServlet {
                 "AND TABLE_SCHEMA = '" + Constants.getInstance().dbName +
                 "'");
 
-        logger.debug(count+"");
+
 
         if(count<1)
         {
 
             try {
-
-
-                BaseDao.getQueryRunner().update("CREATE TABLE IF NOT EXISTS " + tablename +
+                String sql = "CREATE TABLE IF NOT EXISTS " + tablename +
                         " (\n" +
                         colsNames +
-                        ");");
+                        ");";
+
+                logger.debug("新建表"+tablename+":"+sql);
+                BaseDao.getQueryRunner().update(sql);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+        else
+        {
+            logger.debug("表"+tablename+"已存在");
         }
     }
 

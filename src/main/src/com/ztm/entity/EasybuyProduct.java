@@ -1,9 +1,12 @@
 package com.ztm.entity;
 
+import com.ztm.core.util.anno.PrimaryKey;
+
 /**
  * Created by NilsZhang
  */
 public class EasybuyProduct {
+    @PrimaryKey
     private int ep_id;
     private String ep_name;
     private String ep_description;

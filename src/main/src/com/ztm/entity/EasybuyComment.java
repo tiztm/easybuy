@@ -1,12 +1,17 @@
 package com.ztm.entity;
 
+import com.ztm.core.util.anno.PrimaryKey;
+
 import java.util.Date;
 
 /**
  * Created by NilsZhang
  */
 public class EasybuyComment {
+
+    @PrimaryKey
     private int ec_id;
+
     private String ec_reply;
     private String ec_content;
     private Date ec_create_time;

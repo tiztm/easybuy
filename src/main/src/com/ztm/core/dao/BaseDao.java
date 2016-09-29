@@ -1,6 +1,8 @@
 package com.ztm.core.dao;
 
 import com.ztm.core.util.CommonUtil;
+import com.ztm.core.util.StringUtil;
+import com.ztm.core.util.anno.PrimaryKey;
 import com.ztm.core.util.db.DBUtilsHelper;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.*;
@@ -232,7 +234,6 @@ public class BaseDao<T> {
      * 根据sql和对象，查询结果并以对象形式返回
      *
      * @param sql
-     * @param type
      * @return
      */
     public  T getBean(String sql) {
@@ -250,7 +251,6 @@ public class BaseDao<T> {
      * 根据sql和对象，查询结果并以对象形式返回
      *
      * @param sql
-     * @param type
      * @param params
      * @return
      */
@@ -289,7 +289,6 @@ public class BaseDao<T> {
      * 根据sql查询list对象
      *
      * @param sql
-     * @param type
      * @param params
      * @return
      */
@@ -334,7 +333,7 @@ public class BaseDao<T> {
 
         if(cols.length()<1) return 0;
 
-        tableName = tableName.substring(tableName.lastIndexOf(".")+1,tableName.length());
+        tableName = StringUtil.camelToUnderline(tableName.substring(tableName.lastIndexOf(".")+1,tableName.length()));
           String sql =       "INSERT INTO " +tableName+//
                 " (" +cols.substring(0,cols.length()-1)+//id,name,url
                 ")  VALUES (" +values.substring(0,values.length()-1)+//?, '22','33'
@@ -357,6 +356,7 @@ public class BaseDao<T> {
         String values="";
 
         Integer id = -1;
+        String idName = "";
 
 
         if(object==null) return 0;
@@ -371,9 +371,14 @@ public class BaseDao<T> {
                 field.setAccessible(true);
                 String name = field.getName();
 
-                if(name.equals("id"))
+
+                PrimaryKey annotation = field.getAnnotation(PrimaryKey.class);
+
+
+                if(annotation!=null)
                 {
                     id = (Integer) field.get(object);
+                    idName = name;
                     continue;
                 }
 
@@ -390,12 +395,13 @@ public class BaseDao<T> {
 
         if(cols.length()<1) return 0;
 
-        tableName = tableName.substring(tableName.lastIndexOf(".")+1,tableName.length());
+        tableName = StringUtil.camelToUnderline(tableName.substring(tableName.lastIndexOf(".")+1,tableName.length()));
 
         //update duokan t set t.name = "1",t.url="2" where t.id = 12
         String sql =  "update " +tableName+
                 " set  " +cols.substring(0,cols.length()-1)+//name = "1",url="2"
-                "  where id = "+id;
+                "  where " +idName+
+                " = "+id;
 
 
 

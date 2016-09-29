@@ -1,11 +1,14 @@
 package com.ztm.entity;
 
+import com.ztm.core.util.anno.PrimaryKey;
+
 import java.util.Date;
 
 /**
  * Created by NilsZhang
  */
 public class EasybuyNews {
+    @PrimaryKey
     private int en_id;
     private String en_title;
     private String en_content;

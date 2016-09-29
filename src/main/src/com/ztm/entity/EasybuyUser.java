@@ -1,11 +1,14 @@
 package com.ztm.entity;
 
+import com.ztm.core.util.anno.PrimaryKey;
+
 import java.util.Date;
 
 /**
  * Created by NilsZhang
  */
 public class EasybuyUser {
+    @PrimaryKey
     private  int eu_user_id;
     private String eu_user_name;
     private String eu_password;
