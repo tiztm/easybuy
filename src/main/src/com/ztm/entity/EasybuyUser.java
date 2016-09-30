@@ -18,6 +18,10 @@ public class EasybuyUser {
     private String eu_email;
     private String eu_mobile;
     private String eu_address;
+
+    /*
+     * 1 普通用户 2 管理员
+     */
     private  int eu_status;
 
     public void setEu_user_id(int eu_user_id) {

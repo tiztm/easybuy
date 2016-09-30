@@ -66,23 +66,23 @@ function checkForm(frm)
 	return true;
 }
 
-//function showChater()
-//{
-//	var _chater = document.createElement("div");
-//	_chater.setAttribute("id", "chater");
-//	var _dl = document.createElement("dl");
-//	var _dt = document.createElement("dt");
-//	var _dd = document.createElement("dd");
-//	var _a = document.createElement("a");
-//	_a.setAttribute("href", "#");
-//	_a.onclick = openRoom;
-//	_a.appendChild(document.createTextNode("在线聊天"));
-//	_dd.appendChild(_a);
-//	_dl.appendChild(_dt);
-//	_dl.appendChild(_dd);
-//	_chater.appendChild(_dl);
-//	document.body.appendChild(_chater);
-//}
+function showChater()
+{
+	//var _chater = document.createElement("div");
+	//_chater.setAttribute("id", "chater");
+	//var _dl = document.createElement("dl");
+	//var _dt = document.createElement("dt");
+	//var _dd = document.createElement("dd");
+	//var _a = document.createElement("a");
+	//_a.setAttribute("href", "#");
+	//_a.onclick = openRoom;
+	//_a.appendChild(document.createTextNode("在线聊天"));
+	//_dd.appendChild(_a);
+	//_dl.appendChild(_dt);
+	//_dl.appendChild(_dd);
+	//_chater.appendChild(_dl);
+	//document.body.appendChild(_chater);
+}
 
 function openRoom()
 {

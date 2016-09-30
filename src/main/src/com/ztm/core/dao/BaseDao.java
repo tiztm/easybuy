@@ -4,6 +4,7 @@ import com.ztm.core.util.CommonUtil;
 import com.ztm.core.util.StringUtil;
 import com.ztm.core.util.anno.PrimaryKey;
 import com.ztm.core.util.db.DBUtilsHelper;
+import com.ztm.entity.EasybuyUser;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.*;
 
@@ -18,6 +19,9 @@ public class BaseDao<T> {
 
 
     protected Class<T> entityClass = null;
+
+
+
 
 
     protected BaseDao() {
@@ -347,7 +351,47 @@ public class BaseDao<T> {
     }
 
 
+    public List<T> getPagedList(T object,int firstItemID, int pageSize) {
 
+
+
+        String tableName="";
+
+        if(object==null) return null;
+        Class objectClass = object.getClass();
+        tableName = objectClass.getName();
+        tableName = StringUtil.camelToUnderline(tableName.substring(tableName.lastIndexOf(".")+1,tableName.length()));
+
+
+        String sql = "select * from " +tableName+
+                " limit "+firstItemID+","+pageSize;
+
+        return this.getListBean(sql);
+
+    }
+
+
+    public int getAllCount(T object)
+    {
+        String sql = null;
+
+        String tableName="";
+        String cols="";
+        String values="";
+
+        Integer id = -1;
+        String idName = "";
+
+
+        if(object==null) return 0;
+        Class objectClass = object.getClass();
+        tableName = objectClass.getName();
+        tableName = StringUtil.camelToUnderline(tableName.substring(tableName.lastIndexOf(".")+1,tableName.length()));
+        sql = "select count(*) from  "+tableName;
+        //params.add(userName);
+
+        return BaseDao.getCount(sql);
+    }
 
     public int update(T object) {
 
@@ -406,6 +450,67 @@ public class BaseDao<T> {
 
 
         System.out.println("更新:"+sql);
+
+        return update(sql);
+
+
+    }
+
+    public int delete(T object) {
+
+        String tableName="";
+        String cols="";
+        String values="";
+
+        Integer id = -1;
+        String idName = "";
+
+
+        if(object==null) return 0;
+        Class objectClass = object.getClass();
+        tableName = objectClass.getName();
+        Field[] fields = objectClass.getDeclaredFields();
+
+        try {
+            for (Field field : fields) {
+
+
+                field.setAccessible(true);
+                String name = field.getName();
+
+
+                PrimaryKey annotation = field.getAnnotation(PrimaryKey.class);
+
+
+                if(annotation!=null)
+                {
+                    id = (Integer) field.get(object);
+                    idName = name;
+                    continue;
+                }
+
+                Object o = field.get(object);
+                if(o==null) continue;
+                //TODO:当前仅仅支持数字和Char
+                cols =cols+ name +"='"+o+ "',";
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        if(id==-1)  return 0;
+
+
+        tableName = StringUtil.camelToUnderline(tableName.substring(tableName.lastIndexOf(".")+1,tableName.length()));
+
+        //update duokan t set t.name = "1",t.url="2" where t.id = 12
+        String sql =  "delete from " +tableName+
+                "  where " +idName+
+        " = "+id;
+
+
+
+        System.out.println("删除:"+sql);
 
         return update(sql);
 

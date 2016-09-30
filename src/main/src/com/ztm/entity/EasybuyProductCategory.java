@@ -2,6 +2,8 @@ package com.ztm.entity;
 
 import com.ztm.core.util.anno.PrimaryKey;
 
+import java.util.List;
+
 /**
  * Created by NilsZhang
  */
@@ -10,6 +12,8 @@ public class EasybuyProductCategory {
     private int epc_id;
     private String epc_name;
     private int epc_parent_id;
+
+    private List<EasybuyProductCategory> epcList;
 
     public int getEpc_id() {
         return epc_id;
@@ -33,5 +37,13 @@ public class EasybuyProductCategory {
 
     public void setEpc_parent_id(int epc_parent_id) {
         this.epc_parent_id = epc_parent_id;
+    }
+
+    public List<EasybuyProductCategory> getEpcList() {
+        return epcList;
+    }
+
+    public void setEpcList(List<EasybuyProductCategory> epcList) {
+        this.epcList = epcList;
     }
 }

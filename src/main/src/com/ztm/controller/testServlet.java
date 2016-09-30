@@ -50,7 +50,7 @@ public class testServlet extends HttpServlet {
 
         EasybuyComment bean = ebcDao.getBean("select * from easybuy_comment where ec_id = "+ecid);
 
-        response.getWriter().write(bean!=null?bean.getEc_reply_time().getTime()+"'":"1");
+        response.getWriter().write(bean!=null?bean.getEc_reply_time().getTime()+"":"1");
     }
 
 }
