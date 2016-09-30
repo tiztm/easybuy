@@ -1,3 +1,5 @@
+<%@ page import="com.ztm.dao.EasybuyProductDao" %>
+<%@ page import="com.ztm.entity.EasybuyProduct" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -7,116 +9,61 @@
 
 	<%@ include file="common/header.jsp" %>
 
+	<%@ include file="common/proCat.jsp" %>
 
+	<%
+		EasybuyProductDao epd = new EasybuyProductDao();
+		List<EasybuyProduct> listProRM = epd.getListBean("select * from easybuy_product where epc_child_id=1000 limit 0,8");
+		request.setAttribute("listProTJ",listProRM);
 
+		listProRM = epd.getListBean("select * from easybuy_product where epc_child_id=1001 limit 0,8");
+		request.setAttribute("listProRM",listProRM);
+	%>
+	<div id="position" class="wrap">
+		您现在的位置：<a href="index.jsp">易买网</a> &gt; 首页
+	</div>
 <div id="main" class="wrap">
 	<div class="lefter">
 		<div class="box" style="height: 500px">
 			<h2>商品分类</h2>
 			<dl>
-				<!--
-				<dt>图书音像</dt>
-				<dd><a href="product-list.html">图书</a></dd>
-				<dd><a href="product-list.html">音乐</a></dd>
-				<dt>百货</dt>
-				<dd><a href="product-list.html">运动健康</a></dd>
-				<dd><a href="product-list.html">服装</a></dd>
-				<dd><a href="product-list.html">家居</a></dd>
-				<dd><a href="product-list.html">美妆</a></dd>
-				<dd><a href="product-list.html">母婴</a></dd>
-				<dd><a href="product-list.html">食品</a></dd>
-				<dd><a href="product-list.html">手机数码</a></dd>
-				<dd><a href="product-list.html">家具首饰</a></dd>
-				<dd><a href="product-list.html">手表饰品</a></dd>
-				<dd><a href="product-list.html">鞋包</a></dd>
-				<dd><a href="product-list.html">家电</a></dd>
-				<dd><a href="product-list.html">电脑办公</a></dd>
-				<dd><a href="product-list.html">玩具文具</a></dd>
-				<dd><a href="product-list.html">汽车用品</a></dd>-->
+				${epc_list}
 			</dl>
 		</div>
 		<div class="spacer"></div>
-		<div class="last-view" style="height: 300px">
-			<h2>最近浏览</h2>
 
-		</div>
 	</div>
 	<div class="main">
 		<div class="price-off">
 			<h2>今日特价</h2>
 			<ul class="product clearfix">
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/1.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">法国德菲丝松露精品巧克力500g/盒</a></dd>
-						<dd class="price">￥108.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/2.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">乐扣普通型保鲜盒圣诞7件套</a></dd>
-						<dd class="price">￥69.90</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/3.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">欧珀莱均衡保湿四件套</a></dd>
-						<dd class="price">￥279.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/4.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">联想笔记本电脑 高速独立显存</a></dd>
-						<dd class="price">￥4199</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/5.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">法姿韩版显瘦彩边时尚牛仔铅笔裤</a></dd>
-						<dd class="price">￥49.00</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/6.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">Genius925纯银施华洛世奇水晶吊坠</a></dd>
-						<dd class="price">￥69.90</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/7.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">利仁2018M福满堂电饼铛 好用实惠</a></dd>
-						<dd class="price">￥268.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/8.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">达派高档拉杆箱20寸 经典款式</a></dd>
-						<dd class="price">￥198.0</dd>
-					</dl>
-				</li>
+
+					<c:forEach items="${requestScope.listProTJ}" var="listProRM" >
+						<li>
+						<dl>
+							<dt><a href="product-view.jsp?id=${listProRM.ep_id}" target="_blank"><img src="${listProRM.ep_file_name}" width="100px" /></a></dt>
+							<dd class="title"><a href="product-view.jsp?id=${listProRM.ep_id}" target="_blank">${listProRM.ep_name}</a></dd>
+							<dd class="price">￥${listProRM.ep_price}.0</dd>
+						</dl>
+						</li>
+					</c:forEach>
+
+
+
 			</ul>
 		</div>
 		<div class="side">
-			<div class="news-list" style="height: 300px">
+			<div class="news-list" style="height: 200px">
 				<h4>最新公告</h4>
 				<ul>
-					<li><a >待完成</a></li>
-					<li><a >待完成</a></li>
+					<li><a >较为重复且简单，未开发</a></li>
 				</ul>
 			</div>
 			<div class="spacer"></div>
-			<div class="news-list" style="height: 300px">
+			<div class="news-list" style="height: 200px">
 				<h4>新闻动态</h4>
 				<ul>
-					<li><a >待完成</a></li>
-					<li><a >待完成</a></li>
+					<li><a >较为重复且简单，未开发</a></li>
 				</ul>
 			</div>
 		</div>
@@ -124,90 +71,18 @@
 		<div class="hot">
 			<h2>热卖推荐</h2>
 			<ul class="product clearfix">
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/1.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">法国德菲丝松露精品巧克力500g/盒</a></dd>
-						<dd class="price">￥108.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/2.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">乐扣普通型保鲜盒圣诞7件套</a></dd>
-						<dd class="price">￥69.90</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/3.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">欧珀莱均衡保湿四件套</a></dd>
-						<dd class="price">￥279.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/4.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">联想笔记本电脑 高速独立显存</a></dd>
-						<dd class="price">￥4199</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/5.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">法姿韩版显瘦彩边时尚牛仔铅笔裤</a></dd>
-						<dd class="price">￥49.00</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/6.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">Genius925纯银施华洛世奇水晶吊坠</a></dd>
-						<dd class="price">￥69.90</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/7.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">利仁2018M福满堂电饼铛 好用实惠</a></dd>
-						<dd class="price">￥268.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/8.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">达派高档拉杆箱20寸 经典款式</a></dd>
-						<dd class="price">￥198.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/9.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">爱国者MP4 全屏触摸多格式播放 4G</a></dd>
-						<dd class="price">￥289.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/10.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">多美滋金装金盾3阶段幼儿配方奶粉</a></dd>
-						<dd class="price">￥186.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/1.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">法国德菲丝松露精品巧克力500g/盒</a></dd>
-						<dd class="price">￥108.0</dd>
-					</dl>
-				</li>
-				<li>
-					<dl>
-						<dt><a href="product-view.html" target="_blank"><img src="images/product/2.jpg" /></a></dt>
-						<dd class="title"><a href="product-view.html" target="_blank">乐扣普通型保鲜盒圣诞7件套</a></dd>
-						<dd class="price">￥69.90</dd>
-					</dl>
-				</li>
+
+				<c:forEach items="${requestScope.listProRM}" var="listProRM" >
+					<li>
+						<dl>
+							<dt><a href="product-view.jsp?id=${listProRM.ep_id}" target="_blank"><img  src="${listProRM.ep_file_name}" width="100px" /></a></dt>
+							<dd class="title"><a href="product-view.jsp?id=${listProRM.ep_id}" target="_blank">${listProRM.ep_name}</a></dd>
+							<dd class="price">￥${listProRM.ep_price}.0</dd>
+						</dl>
+					</li>
+				</c:forEach>
+
+
 			</ul>
 		</div>
 	</div>

@@ -1,7 +1,6 @@
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.ztm.entity.EasybuyUser" %>
 <%@ page import="com.ztm.dao.EasybuyUserDao" %>
+<%@ page import="com.ztm.entity.EasybuyUser" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -45,7 +44,7 @@
 				<tr>
 					<th>ID</th>
 					<th>姓名</th>
-					<th>性别</th>
+					<th>地址</th>
 					<th>Email</th>
 					<th>手机</th>
 					<th>操作</th>
@@ -56,8 +55,7 @@
 						<td class="first w4 c">${user.eu_user_id}</td>
 						<td class="w1 c">${user.eu_user_name}</td>
 						<td class="w2 c">
-							<c:if test="${user.eu_sex == 1}">男</c:if>
-							<c:if test="${user.eu_sex == 2}">女</c:if>
+							${user.eu_address}
 						</td>
 						<td class="w2 c">
 							${user.eu_email}
@@ -67,8 +65,7 @@
 						</td>
 						<td class="w5 c">
 							<c:if test="${user.eu_user_name != 'admin'}">
-							<a href="javascript:Delete('/userDel','${user.eu_user_id}');">
-								<label class="ui-blue"><input type="submit" name="submit" value="删除" /></label>
+							<a href="javascript:Delete('/userDel','${user.eu_user_id}');">删除
 							</a>
 							</c:if>
 						</td>

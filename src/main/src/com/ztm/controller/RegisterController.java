@@ -1,13 +1,11 @@
 package com.ztm.controller;
 
 
-
 import com.ztm.dao.EasybuyUserDao;
 import com.ztm.entity.EasybuyUser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,9 +27,11 @@ public class RegisterController extends BaseController {
             return;
         }
 
+        String addr = request.getParameter("addr");
         EasybuyUser new_user = new EasybuyUser();
         new_user.setEu_user_name(userName);
         new_user.setEu_password(passWord);
+        new_user.setEu_address(addr);
         new_user.setEu_status(1);
         EasybuyUserDao user_dao = new EasybuyUserDao();
 

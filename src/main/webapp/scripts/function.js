@@ -128,21 +128,14 @@ function delCookie(name)
   if(cval!=null) document.cookie=name +"="+cval+";expires="+exp.toGMTString();
 }
 
-function goBuy(id, price)
+
+
+// JavaScript Document
+function goBuy(url,id)
 {
-	var newCookie = "";
-	var oldCookie = getCookie("product");
-	if(oldCookie) {
-		if(inArray(oldCookie.split(","), id)) {
-			newCookie = oldCookie;
-		} else {
-			newCookie = id + "," + oldCookie;
-		}
-	} else {
-		newCookie = id;
+	if(confirm("确定要购买吗？")) {
+		location.href = url+"?id=" + id;
 	}
-	setCookie("product", newCookie);
-	location.href = "shopping.html";
 }
 
 function delShopping(id)

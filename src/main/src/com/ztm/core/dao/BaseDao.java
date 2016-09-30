@@ -4,7 +4,6 @@ import com.ztm.core.util.CommonUtil;
 import com.ztm.core.util.StringUtil;
 import com.ztm.core.util.anno.PrimaryKey;
 import com.ztm.core.util.db.DBUtilsHelper;
-import com.ztm.entity.EasybuyUser;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.*;
 
@@ -12,6 +11,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,45 @@ public class BaseDao<T> {
                 entityClass = (Class<T>)p[0];
             }
         }
+    }
+
+    public T getByID(int id) {
+
+        String tableName="";
+        String idName = null;
+
+        Class objectClass = entityClass;
+        tableName = objectClass.getName();
+        Field[] fields = objectClass.getDeclaredFields();
+
+        try {
+            for (Field field : fields) {
+
+                field.setAccessible(true);
+                String name = field.getName();
+                PrimaryKey annotation = field.getAnnotation(PrimaryKey.class);
+                if(annotation!=null)
+                {
+                    idName = name;
+                    continue;
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(idName==null)  return null;
+
+
+        tableName = StringUtil.camelToUnderline(tableName.substring(tableName.lastIndexOf(".")+1,tableName.length()));
+
+
+        T Bean = this.getBean("select * from " +tableName+
+                " where " +idName+
+                " ="+id);
+        return Bean;
+
     }
 
 
@@ -274,7 +314,6 @@ public class BaseDao<T> {
      * 根据sql查询list对象
      *
      * @param sql
-     * @param type
      * @return
      */
     public   List<T> getListBean(String sql ) {
@@ -306,7 +345,7 @@ public class BaseDao<T> {
         return null;
     }
 
-
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public int save(T object) {
 
@@ -327,9 +366,21 @@ public class BaseDao<T> {
                 field.setAccessible(true);
                 Object o = field.get(object);
                 if(o==null) continue;
-                //TODO:当前仅仅支持数字和Char
+                //TODO:当前仅仅支持数字和Char,时间
                 cols =cols+field.getName()+ ",";
-                values=values+"'"+o+ "',";
+                String typeName = field.getType().toString();
+                if(typeName.endsWith("Date"))
+                {
+
+                    values=values+"'"+sdf.format((Date)o)+ "',";
+                }
+                else
+                {
+                    values=values+"'"+o+ "',";
+                }
+
+
+
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -351,14 +402,13 @@ public class BaseDao<T> {
     }
 
 
-    public List<T> getPagedList(T object,int firstItemID, int pageSize) {
+    public List<T> getPagedList(int firstItemID, int pageSize) {
 
 
 
         String tableName="";
 
-        if(object==null) return null;
-        Class objectClass = object.getClass();
+        Class objectClass = entityClass;
         tableName = objectClass.getName();
         tableName = StringUtil.camelToUnderline(tableName.substring(tableName.lastIndexOf(".")+1,tableName.length()));
 
@@ -371,20 +421,13 @@ public class BaseDao<T> {
     }
 
 
-    public int getAllCount(T object)
+    public int getAllCount()
     {
         String sql = null;
 
         String tableName="";
-        String cols="";
-        String values="";
 
-        Integer id = -1;
-        String idName = "";
-
-
-        if(object==null) return 0;
-        Class objectClass = object.getClass();
+        Class objectClass = entityClass;
         tableName = objectClass.getName();
         tableName = StringUtil.camelToUnderline(tableName.substring(tableName.lastIndexOf(".")+1,tableName.length()));
         sql = "select count(*) from  "+tableName;
@@ -429,7 +472,21 @@ public class BaseDao<T> {
                 Object o = field.get(object);
                 if(o==null) continue;
                 //TODO:当前仅仅支持数字和Char
-                cols =cols+ name +"='"+o+ "',";
+
+
+
+                String typeName = field.getType().toString();
+                if(typeName.endsWith("Date"))
+                {
+                    cols =cols+ name +"='"+sdf.format((Date)o)+ "',";
+                }
+                else
+                {
+                    cols =cols+ name +"='"+o+ "',";
+                }
+
+
+
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -554,24 +611,6 @@ public class BaseDao<T> {
         return 0;
     }
 
-
-
-    /**
-     * 删除操作
-     *
-     * @param sql
-     * @param params
-     * @return
-     */
-    public static int delete(String sql, Object... params) {
-        try {
-            QueryRunner runner = BaseDao.getQueryRunner();
-            return runner.update(sql, params);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return 0;
-    }
 
 
 

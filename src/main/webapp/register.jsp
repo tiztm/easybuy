@@ -31,6 +31,10 @@
 					</tr>
 
 					<tr>
+						<td class="field">地址：</td>
+						<td><input class="text" type="text" name="addr" /><span></span></td>
+					</tr>
+					<tr>
 						<td></td>
 						<td><label class="ui-green"><input type="submit" name="submit" value="提交注册" /></label></td>
 					</tr>

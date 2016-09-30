@@ -37,14 +37,12 @@ a:hover, a:active { color:#3a52a8; text-decoration:underline; }
 #header .help a { margin:0 5px; }
 #header .help a.shopping { padding-left:18px; background:url(../images/bg.png) left -69px no-repeat; }
 #header .navbar { padding-left:120px; margin-top:30px; }
-#header .navbar li { float:left; display:inline; margin:0 3px; background:url(../images/bg.png) right -30px no-repeat; padding-right:20px; }
-#header .navbar li a { display:block; word-spacing:5px; letter-spacing:5px; background:url(../images/bg.png) left -30px no-repeat; padding-left:20px; padding-top:4px; line-height:26px; font-size:14px; font-weight:bold; color:#105f4b; text-decoration:none; }
+#header .navbar li { float:left; display:inline; margin:0 3px; background:url(../images/bg.png) right -30px no-repeat; padding-right:20px;  display:block; word-spacing:5px; letter-spacing:5px; background:url(../images/bg.png) left -30px no-repeat; padding-left:20px; padding-top:4px; line-height:26px; font-size:14px; font-weight:bold; color:#105f4b; text-decoration:none;  }
 #header .navbar li.current { background-position:right top; padding-right:15px; }
 #header .navbar li.current a { background-position:left top; color:#fff; padding-left:15px; }
 #childNav { clear:both; height:30px; background:#fc7e31; overflow:hidden; }
 #childNav ul { margin:9px; line-height:14px; }
-#childNav ul li { float:left; display:inline; border-right:1px solid #dc6b04; border-left:1px solid #fba455; padding:0 9px; }
-#childNav ul li a { color:#fff; text-decoration:none; }
+#childNav ul li { float:left; display:inline; border-right:1px solid #dc6b04; border-left:1px solid #fba455; padding:0 9px; color:#fff; text-decoration:none; }
 #childNav ul li.first { border-left:0; }
 #childNav ul li.last { border-right:0; }
 #childNav .welcome { line-height:30px; text-align:right; color:#FFC; }

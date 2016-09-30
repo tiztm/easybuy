@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div id="header" class="wrap">
-	<div id="logo"><img src="../images/logo.gif" /></div>
+	<div id="logo"><a href="/index.jsp"><img src="../images/logo.gif" /></a></div>
 	<div class="help"><a href="../index.jsp">返回前台页面</a></div>
 	<div class="navbar">
 		<ul class="clearfix">

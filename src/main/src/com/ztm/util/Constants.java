@@ -15,7 +15,7 @@ public class Constants {
     private Constants() {
     }
 
-    public String dbName = "easybuy";
+    public String dbName = "easybuytest";
 
     public String packageName = "com.ztm.entity";
 

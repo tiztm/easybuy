@@ -77,8 +77,8 @@ public class InitServlet extends HttpServlet {
 
                 if(mysqlTypeName==null)
                 {
-                    logger.error("存在无法识别的类型："+tableName);
-                    return;
+                    logger.error("存在无法识别的类型："+tableName+":"+typeName);
+                    continue;
                 }
 
                 PrimaryKey annotation = fields[i].getAnnotation(PrimaryKey.class);

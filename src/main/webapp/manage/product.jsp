@@ -1,11 +1,6 @@
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.ztm.entity.EasybuyUser" %>
-<%@ page import="com.ztm.dao.EasybuyUserDao" %>
-<%@ page import="com.ztm.entity.EasybuyProductCategory" %>
-<%@ page import="com.ztm.dao.EasybuyProductCategoryDao" %>
-<%@ page import="com.ztm.entity.EasybuyProduct" %>
 <%@ page import="com.ztm.dao.EasybuyProductDao" %>
+<%@ page import="com.ztm.entity.EasybuyProduct" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,7 +17,7 @@
 		pageNumber = Integer.parseInt(pageNumberStr);
 	}
 
-	int totalUsers = ebProDao.getAllCount(new EasybuyProduct()); // 总用户数
+	int totalUsers = ebProDao.getAllCount(); // 总用户数
 	int totalPages = totalUsers/pageSize + ((totalUsers%pageSize) > 0 ? 1 : 0); //总页数
 	int firstItemID = (pageNumber-1)*pageSize;
 
@@ -31,9 +26,9 @@
 	request.setAttribute("totalUsers",totalUsers);
 	request.setAttribute("totalPages",totalPages);
 
-	List<EasybuyProduct> usersList = ebProDao.getPagedList(new EasybuyProduct(), firstItemID, pageSize);
+	List<EasybuyProduct> usersList = ebProDao.getPagedList(firstItemID, pageSize);
 	request.setAttribute("users_list",usersList);
-	request.setAttribute("nextAction","user.jsp");
+	request.setAttribute("nextAction","product.jsp");
 
 
 
@@ -54,12 +49,12 @@
 				<c:forEach items="${requestScope.users_list}" var="user" varStatus="abc">
 					<tr>
 						<td class="first w4 c">${user.ep_id}</td>
-						<td class="thumb"><img src="${user.ep_file_name}" />
-							<a href="../product-view.html" target="_blank">
+						<td class="thumb"><img src="${user.ep_file_name}" width="50px" />
+							<a href="../product-view.jsp?id=${user.ep_id}" target="_blank">
 									${user.ep_name}
 							</a>
 						</td>
-						<td class="w1 c"><a href="product-modify.html">修改</a> <a href="javascript:Delete(1);">删除</a></td>
+						<td class="w1 c"><a href="product-modify.jsp?id=${user.ep_id}">修改</a> <a href="javascript:Delete('/proDel','${user.ep_id}');">删除</a></td>
 					</tr>
 				</c:forEach>
 

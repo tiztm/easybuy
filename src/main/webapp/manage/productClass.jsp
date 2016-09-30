@@ -1,10 +1,6 @@
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.ztm.entity.EasybuyUser" %>
-<%@ page import="com.ztm.dao.EasybuyUserDao" %>
-<%@ page import="com.ztm.entity.EasybuyProductCategory" %>
 <%@ page import="com.ztm.dao.EasybuyProductCategoryDao" %>
-<%@ page import="com.ztm.entity.EasybuyProduct" %>
+<%@ page import="com.ztm.entity.EasybuyProductCategory" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -48,7 +44,7 @@
 							<td class="first w4 c">${childs.epc_id}</td>
 							<td class="childClass">${childs.epc_name}</td>
 							<td class="w1 c">
-								<a href="javascript:Delete(1);">删除</a>
+								<a href="javascript:Delete('/proCatDel',${childs.epc_id});">删除</a>
 							</td>
 						</tr>
 					</c:forEach>

@@ -16,6 +16,11 @@ public class EasybuyOrder {
     private Date eo_create_time;
     private int eo_cost;
     private int eo_status;
+    /**
+     * 0 - 已下单
+     * 1 - 已发货
+     * 2 - 已收货
+     */
     private int eo_type;
 
     public int getEo_id() {

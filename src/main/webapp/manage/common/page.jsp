@@ -25,7 +25,7 @@
                 <c:if test="${pageNumber<totalPages}">
                     <a href="${nextAction}?pageNumber=${pageNumber+1}">下一页</a></c:if>
                 <c:if test="${pageNumber<totalPages-1}">
-                    <a href="${nextAction}?pageNumber=${totalPages}">末页</a></c:if> 共${totalUsers}名用户
+                    <a href="${nextAction}?pageNumber=${totalPages}">末页</a></c:if> 共${totalUsers}个
             </form>
         </td>
     </tr>
